@@ -1,2 +1,16 @@
-# INTURNSHIP-Task-2
-Here's a GitHub description that's well under **350 characters**:  > **A responsive Calculator Web Application built using HTML, CSS, and JavaScript. It performs basic arithmetic operations with a clean user interface, keyboard input support, DOM manipulation, event handling, and error handling to ensure accurate and smooth calculations.**
+# INTERNSHIP - Task 2: Calculator Web Application
+
+## Description
+A responsive **Calculator Web Application** developed using **HTML, CSS, and JavaScript**. The project performs basic arithmetic operations through an intuitive user interface while demonstrating DOM manipulation, event handling, keyboard input support, and error handling for a smooth and accurate user experience.
+
+## Technologies Used
+- HTML5
+- CSS3
+- JavaScript (ES6)
+
+## Features
+- Basic arithmetic operations (+, −, ×, ÷)
+- Responsive and user-friendly interface
+- Keyboard input support
+- Error handling for invalid operations
+- Real-time calculations using JavaScript
