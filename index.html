@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculator App — SkillCraft Technology</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple: #7c5cfc;
+      --purple-light: #a78bfa;
+      --purple-glow: rgba(124,92,252,0.4);
+      --teal: #06b6d4;
+      --teal-glow: rgba(6,182,212,0.35);
+      --bg: #08080f;
+      --card: #0f0f1e;
+      --border: rgba(255,255,255,0.06);
+      --text: #f0eeff;
+      --text-dim: rgba(200,195,230,0.5);
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      background-image:
+        radial-gradient(ellipse 70% 50% at 50% -10%, rgba(124,92,252,0.18) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 10% 90%,  rgba(6,182,212,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 90% 80%,  rgba(124,92,252,0.08) 0%, transparent 60%);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 14px;
+      border-radius: 20px;
+      background: rgba(124,92,252,0.12);
+      border: 1px solid rgba(124,92,252,0.3);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--purple-light);
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(36px, 6vw, 58px);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      background: linear-gradient(130deg, #fff 0%, #c4b5fd 50%, #7c5cfc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      font-size: 16px;
+      color: var(--text-dim);
+      max-width: 420px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ── Cards ── */
+    .cards {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 800px;
+      width: 100%;
+    }
+
+    .card {
+      flex: 1;
+      min-width: 280px;
+      max-width: 360px;
+      background: var(--card);
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      padding: 36px 30px 30px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s;
+      cursor: pointer;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .card-standard::before {
+      background: radial-gradient(ellipse at 50% 0%, rgba(124,92,252,0.12) 0%, transparent 70%);
+    }
+
+    .card-scientific::before {
+      background: radial-gradient(ellipse at 50% 0%, rgba(6,182,212,0.1) 0%, transparent 70%);
+    }
+
+    .card:hover::before { opacity: 1; }
+
+    .card-standard:hover {
+      border-color: rgba(124,92,252,0.45);
+      box-shadow: 0 20px 60px rgba(124,92,252,0.2), 0 0 0 1px rgba(124,92,252,0.15);
+      transform: translateY(-6px);
+    }
+
+    .card-scientific:hover {
+      border-color: rgba(6,182,212,0.45);
+      box-shadow: 0 20px 60px rgba(6,182,212,0.15), 0 0 0 1px rgba(6,182,212,0.15);
+      transform: translateY(-6px);
+    }
+
+    /* top glow line */
+    .card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 15%; right: 15%;
+      height: 1px;
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .card-standard::after  { background: linear-gradient(90deg, transparent, rgba(124,92,252,0.8), transparent); }
+    .card-scientific::after { background: linear-gradient(90deg, transparent, rgba(6,182,212,0.8), transparent); }
+    .card:hover::after { opacity: 1; }
+
+    /* icon */
+    .card-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin-bottom: 22px;
+    }
+
+    .card-standard .card-icon  { background: rgba(124,92,252,0.14); }
+    .card-scientific .card-icon { background: rgba(6,182,212,0.12); }
+
+    .card h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: -0.3px;
+    }
+
+    .card-standard h2  { color: #c4b5fd; }
+    .card-scientific h2 { color: #67e8f9; }
+
+    .card p {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.65;
+      margin-bottom: 28px;
+      flex: 1;
+    }
+
+    .features {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 28px;
+    }
+
+    .feat {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 13px;
+      color: rgba(200,195,230,0.65);
+    }
+
+    .feat-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .card-standard .feat-dot  { background: var(--purple); }
+    .card-scientific .feat-dot { background: var(--teal); }
+
+    .card-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 20px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+
+    .card-btn:active { transform: scale(0.97); }
+
+    .card-standard .card-btn {
+      background: linear-gradient(135deg, #7c5cfc, #9b5de5);
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(124,92,252,0.4);
+    }
+
+    .card-scientific .card-btn {
+      background: linear-gradient(135deg, #06b6d4, #0891b2);
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(6,182,212,0.35);
+    }
+
+    .card-btn:hover { opacity: 0.88; }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 52px;
+      font-size: 12px;
+      color: rgba(200,195,230,0.22);
+      letter-spacing: 0.5px;
+      text-align: center;
+    }
+
+    /* ── Mini preview buttons (decorative) ── */
+    .preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 22px;
+    }
+
+    .prev-btn {
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 5px 10px;
+      color: rgba(200,195,230,0.6);
+    }
+
+    .card-standard .prev-btn  { background: rgba(124,92,252,0.12); }
+    .card-scientific .prev-btn { background: rgba(6,182,212,0.1); }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="badge">SkillCraft Technology · Task 02</div>
+    <h1>Calculator Web<br>Application</h1>
+    <p>Choose your calculator mode. Both support keyboard input, error handling, and DOM-driven arithmetic.</p>
+  </div>
+
+  <!-- Cards -->
+  <div class="cards">
+
+    <!-- Standard -->
+    <a class="card card-standard" href="standard-calculator.html">
+      <div class="card-icon">🧮</div>
+      <h2>Standard Calculator</h2>
+      <p>Clean, fast arithmetic for everyday calculations. All four operations with percentage and sign toggle.</p>
+
+      <div class="preview">
+        <span class="prev-btn">7</span><span class="prev-btn">8</span><span class="prev-btn">9</span><span class="prev-btn">÷</span>
+        <span class="prev-btn">4</span><span class="prev-btn">5</span><span class="prev-btn">6</span><span class="prev-btn">×</span>
+        <span class="prev-btn">AC</span><span class="prev-btn">%</span><span class="prev-btn">=</span>
+      </div>
+
+      <div class="features">
+        <div class="feat"><span class="feat-dot"></span>Basic arithmetic: + − × ÷</div>
+        <div class="feat"><span class="feat-dot"></span>Percentage & sign toggle</div>
+        <div class="feat"><span class="feat-dot"></span>Chained operations</div>
+        <div class="feat"><span class="feat-dot"></span>Keyboard input supported</div>
+        <div class="feat"><span class="feat-dot"></span>Error handling built-in</div>
+      </div>
+
+      <div class="card-btn">Open Standard Calculator →</div>
+    </a>
+
+    <!-- Scientific -->
+    <a class="card card-scientific" href="scientific-calculator.html">
+      <div class="card-icon">🔬</div>
+      <h2>Scientific Calculator</h2>
+      <p>Advanced functions for students and engineers — trig, logarithms, powers, roots, and constants.</p>
+
+      <div class="preview">
+        <span class="prev-btn">sin</span><span class="prev-btn">cos</span><span class="prev-btn">tan</span><span class="prev-btn">π</span>
+        <span class="prev-btn">log</span><span class="prev-btn">ln</span><span class="prev-btn">√</span><span class="prev-btn">x²</span>
+        <span class="prev-btn">e</span><span class="prev-btn">!</span><span class="prev-btn">mod</span>
+      </div>
+
+      <div class="features">
+        <div class="feat"><span class="feat-dot"></span>Trig: sin, cos, tan + inverses</div>
+        <div class="feat"><span class="feat-dot"></span>log, ln, √, x², xʸ, 1/x</div>
+        <div class="feat"><span class="feat-dot"></span>Constants: π and e</div>
+        <div class="feat"><span class="feat-dot"></span>Factorial, mod, abs</div>
+        <div class="feat"><span class="feat-dot"></span>DEG / RAD mode toggle</div>
+      </div>
+
+      <div class="card-btn">Open Scientific Calculator →</div>
+    </a>
+
+  </div>
+
+  <div class="footer">Built with HTML · CSS · JavaScript &nbsp;·&nbsp; SkillCraft Technology 2026</div>
+
+</body>
+</html>
